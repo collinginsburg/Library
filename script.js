@@ -105,3 +105,22 @@ function initialDisplayBooks(){
         }
 }
 initialDisplayBooks();
+
+
+// new book button
+const NEWBOOK = document.querySelector('.newbook.btn');
+const MODALFORM = document.querySelector('.modalformcontainer');
+MODALFORM.style.display = 'none'
+NEWBOOK.addEventListener('click', displayModalForm);
+
+function displayModalForm(){
+    if (MODALFORM.style.display === 'none'){
+        MODALFORM.style.display = 'flex';
+    } else {
+        MODALFORM.style.display = 'none';
+    }
+}
+
+// close modal
+const CLOSEBUTTON = document.querySelector('.modalformclose');
+CLOSEBUTTON.addEventListener('click', displayModalForm);
