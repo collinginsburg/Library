@@ -1,13 +1,15 @@
-const ISAWRAMALLAH = new Book("I Saw Ramallah", "Mourid Barghouti", 208, "have not read", "ISAWRAMALLAH");
-const SIXDAYSOFWAR = new Book("Six Days of War: June 1967 and the Making of the Modern Middle East", "Michael B. Oren", 496, "have not read","SIXDAYSOFWAR");
-const PALESTINESCHILDREN = new Book("Palestine's Children: Returning to Haifa & Other Stories", "Ghassan Kanafani", 199, "have not read", "PALESTINESCHILDREN");
-const INSEARCHOFFATIMA = new Book("In Search of Fatima: A Palestinian Story", "Ghada Karmi", 452, "have not read", "INSEARCHOFFATIMA");
-const OUTOFPLACE = new Book("Out of Place: A Memoir", "Edward Said", 336, "have not read", "OUTOFPLACE");
-const LEMONTREE = new Book("The Lemon Tree: An Arab, a Jew, and the Heart of the Middle East", "Sandy Tolan", 400, "have read","LEMONTREE");
+const ISAWRAMALLAH = new Book("I Saw Ramallah", "Mourid Barghouti", 208, "off", "ISAWRAMALLAH");
+const SIXDAYSOFWAR = new Book("Six Days of War: June 1967 and the Making of the Modern Middle East", "Michael B. Oren", 496, "off","SIXDAYSOFWAR");
+const PALESTINESCHILDREN = new Book("Palestine's Children: Returning to Haifa & Other Stories", "Ghassan Kanafani", 199, "off", "PALESTINESCHILDREN");
+const INSEARCHOFFATIMA = new Book("In Search of Fatima: A Palestinian Story", "Ghada Karmi", 452, "off", "INSEARCHOFFATIMA");
+const OUTOFPLACE = new Book("Out of Place: A Memoir", "Edward Said", 336, "off", "OUTOFPLACE");
+const LEMONTREE = new Book("The Lemon Tree: An Arab, a Jew, and the Heart of the Middle East", "Sandy Tolan", 400, "on","LEMONTREE");
 
 let myLibrary = [ISAWRAMALLAH, SIXDAYSOFWAR, PALESTINESCHILDREN, INSEARCHOFFATIMA, OUTOFPLACE];
 // let myLibrary = [ISAWRAMALLAH];
+// let myLibrary = [];
 
+// book object constructor
 function Book(fulltitle, author, pages, read, reftitle){
     this.fulltitle = fulltitle;
     this.author = author;
@@ -18,20 +20,20 @@ function Book(fulltitle, author, pages, read, reftitle){
         return(this.fulltitle + ", " + this.author + ", " + this.pages + ", " + this.read);
     }
 }
+// *******************************************LIBARY DISPLAYS*******************************************
+
+// remove book from library
 
 
-
+// add book to library function: adds object to my library array, displays current library
 function addBookToLibrary(newbook){
     myLibrary.push(newbook);
     displayBooks();
 }
 
-
-
-
 function displayBooks(){
     for(i=0; i<myLibrary.length; i++){
-        if (checkDuplicateTitles()){
+        if (checkDuplicateTitles()){ //checks if book is already displayed, skips it
             // console.error("DUPLICATE. CHOOSE ANOTHER TITLE");
         }else{
             let libgrid = document.querySelector('.libgrid');
@@ -41,40 +43,43 @@ function displayBooks(){
             let infodiv =  document.createElement('div');
             let pagenumdiv = document.createElement('div');
             let readdiv = document.createElement('div'); 
+            let closebutton = document.createElement('div');
+            closebutton.textContent = 'X';
             titlediv.textContent = myLibrary[i].fulltitle;
             authordiv.textContent = myLibrary[i].author;
             pagenumdiv.textContent = myLibrary[i].pages + " pages";
-            readdiv.textContent = myLibrary[i].read;
+            if (myLibrary[i].read === 'on'){
+                readdiv.textContent = "have read";
+            } else{
+                readdiv.textContent = "have not read";
+            }
             infodiv.appendChild(pagenumdiv);
             infodiv.appendChild(readdiv);
+            bookdiv.appendChild(closebutton);
             bookdiv.appendChild(titlediv);
             bookdiv.appendChild(authordiv);
             bookdiv.appendChild(infodiv);
             bookdiv.id = `b${i}`;
+            bookdiv.setAttribute('data-index', `${i}`);
             bookdiv.classList.add(`bookdiv`);
             titlediv.classList.add('titlediv');
             authordiv.classList.add('authordiv');
             infodiv.classList.add('infodiv');
             pagenumdiv.classList.add('pagenumdiv');
             readdiv.classList.add('readdiv');
+            closebutton.classList.add('btn', 'removebook');
             libgrid.appendChild(bookdiv);
         }
     }
 }
 
-
-
 function checkDuplicateTitles(){
-
-    if (document.querySelector(`#b${i}`)){
-        return true
-    }else{
-        return false
-    }
-
+        if (document.querySelector(`#b${i}`)){
+            return true
+        }else{
+            return false
+        }
     };
-
-
 
 function initialDisplayBooks(){
     for(i=0; i<myLibrary.length; i++){
@@ -85,33 +90,44 @@ function initialDisplayBooks(){
         let infodiv =  document.createElement('div');
         let pagenumdiv = document.createElement('div');
         let readdiv = document.createElement('div'); 
+        let closebutton = document.createElement('div');
+        closebutton.textContent = 'X';
         titlediv.textContent = myLibrary[i].fulltitle;
         authordiv.textContent = myLibrary[i].author;
         pagenumdiv.textContent = myLibrary[i].pages + " pages";
-        readdiv.textContent = myLibrary[i].read;
+        if (myLibrary[i].read === 'on'){
+            readdiv.textContent = "have read";
+        } else{
+            readdiv.textContent = "have not read";
+        }
         infodiv.appendChild(pagenumdiv);
         infodiv.appendChild(readdiv);
+        bookdiv.appendChild(closebutton);
         bookdiv.appendChild(titlediv);
         bookdiv.appendChild(authordiv);
         bookdiv.appendChild(infodiv);
         bookdiv.id = `b${i}`;
+        bookdiv.setAttribute('data-index', `${i}`);
         bookdiv.classList.add(`bookdiv`);
         titlediv.classList.add('titlediv');
         authordiv.classList.add('authordiv');
         infodiv.classList.add('infodiv');
         pagenumdiv.classList.add('pagenumdiv');
         readdiv.classList.add('readdiv');
+        closebutton.classList.add('btn', 'removebook');
         libgrid.appendChild(bookdiv);
         }
 }
 initialDisplayBooks();
 
 
-// new book button
-const NEWBOOK = document.querySelector('.newbook.btn');
+// *******************************************MODAL*******************************************
+
+// new book button, open modal
+const NEWBOOKBUTTON = document.querySelector('.newbook.btn');
 const MODALFORM = document.querySelector('.modalformcontainer');
 MODALFORM.style.display = 'none'
-NEWBOOK.addEventListener('click', displayModalForm);
+NEWBOOKBUTTON.addEventListener('click', displayModalForm);
 
 function displayModalForm(){
     if (MODALFORM.style.display === 'none'){
@@ -120,7 +136,28 @@ function displayModalForm(){
         MODALFORM.style.display = 'none';
     }
 }
-
 // close modal
 const CLOSEBUTTON = document.querySelector('.modalformclose');
 CLOSEBUTTON.addEventListener('click', displayModalForm);
+
+// add book function inside modal
+const ADDBOOKBUTTON = document.querySelector('#addbook');
+ADDBOOKBUTTON.addEventListener('click', addBook);
+function addBook(){
+    let fulltitleinput = document.querySelector('#fulltitle').value;
+    let authorinput =  document.querySelector('#author').value;
+    let pageinput = document.querySelector('#pages').value;
+    let nicknameinput = document.querySelector('#nickname').value;
+    let readstatusinput = document.querySelector('#readstatus').value;
+    let newbook = new Book(fulltitleinput, authorinput, pageinput, readstatusinput, nicknameinput);
+    addBookToLibrary(newbook);
+    displayModalForm();
+    document.querySelector('#fulltitle').value = '';
+    document.querySelector('#author').value = '';
+    document.querySelector('#pages').value = '';
+    document.querySelector('#nickname').value = '';
+    document.querySelector('#readstatus').value = 'off';
+}
+
+
+
