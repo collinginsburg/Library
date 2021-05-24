@@ -20,10 +20,10 @@ function Book(fulltitle, author, pages, read, reftitle){
         return(this.fulltitle + ", " + this.author + ", " + this.pages + ", " + this.read);
     }
 }
+// Book.prototype.read = function(){
+//     this.read
+// }
 // *******************************************LIBARY DISPLAYS*******************************************
-
-// remove book from library
-
 
 // add book to library function: adds object to my library array, displays current library
 function addBookToLibrary(newbook){
@@ -53,6 +53,7 @@ function displayBooks(){
             } else{
                 readdiv.textContent = "have not read";
             }
+            closebutton.addEventListener('click', deleteBook);
             infodiv.appendChild(pagenumdiv);
             infodiv.appendChild(readdiv);
             bookdiv.appendChild(closebutton);
@@ -100,6 +101,7 @@ function initialDisplayBooks(){
         } else{
             readdiv.textContent = "have not read";
         }
+        closebutton.addEventListener('click', deleteBook);
         infodiv.appendChild(pagenumdiv);
         infodiv.appendChild(readdiv);
         bookdiv.appendChild(closebutton);
@@ -120,6 +122,15 @@ function initialDisplayBooks(){
 }
 initialDisplayBooks();
 
+// delete book function
+function deleteBook(e){
+    let libgrid = document.querySelector('.libgrid');
+    let index = e.target.parentNode.dataset.index;
+    let bookdiv = document.querySelector(`div[data-index="${index}"]`); 
+    myLibrary.splice(index, 1);
+    libgrid.removeChild(bookdiv);
+    displayBooks();
+}
 
 // *******************************************MODAL*******************************************
 
