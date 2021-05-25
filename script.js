@@ -1,9 +1,9 @@
-const ISAWRAMALLAH = new Book("I Saw Ramallah", "Mourid Barghouti", 208, "off", "ISAWRAMALLAH");
-const SIXDAYSOFWAR = new Book("Six Days of War: June 1967 and the Making of the Modern Middle East", "Michael B. Oren", 496, "off","SIXDAYSOFWAR");
-const PALESTINESCHILDREN = new Book("Palestine's Children: Returning to Haifa & Other Stories", "Ghassan Kanafani", 199, "off", "PALESTINESCHILDREN");
-const INSEARCHOFFATIMA = new Book("In Search of Fatima: A Palestinian Story", "Ghada Karmi", 452, "off", "INSEARCHOFFATIMA");
-const OUTOFPLACE = new Book("Out of Place: A Memoir", "Edward Said", 336, "off", "OUTOFPLACE");
-const LEMONTREE = new Book("The Lemon Tree: An Arab, a Jew, and the Heart of the Middle East", "Sandy Tolan", 400, "on","LEMONTREE");
+const ISAWRAMALLAH = new Book("I Saw Ramallah", "Mourid Barghouti", 208, false, "ISAWRAMALLAH");
+const SIXDAYSOFWAR = new Book("Six Days of War: June 1967 and the Making of the Modern Middle East", "Michael B. Oren", 496, false,"SIXDAYSOFWAR");
+const PALESTINESCHILDREN = new Book("Palestine's Children: Returning to Haifa & Other Stories", "Ghassan Kanafani", 199, false, "PALESTINESCHILDREN");
+const INSEARCHOFFATIMA = new Book("In Search of Fatima: A Palestinian Story", "Ghada Karmi", 452, false, "INSEARCHOFFATIMA");
+const OUTOFPLACE = new Book("Out of Place: A Memoir", "Edward Said", 336, false, "OUTOFPLACE");
+const LEMONTREE = new Book("The Lemon Tree: An Arab, a Jew, and the Heart of the Middle East", "Sandy Tolan", 400, true,"LEMONTREE");
 
 let myLibrary = [ISAWRAMALLAH, SIXDAYSOFWAR, PALESTINESCHILDREN, INSEARCHOFFATIMA, OUTOFPLACE];
 // let myLibrary = [ISAWRAMALLAH];
@@ -51,16 +51,16 @@ function displayBooks(){
             
             let readstatusdiv = document.createElement('div');
             let readstatuslabel = document.createElement('label');
-            let readstatusinput =  document.createElement('input');
+            let readstatus =  document.createElement('input');
             readstatuslabel.textContent = "Read?";
             readstatuslabel.setAttribute('for','cardreadstatus');
-            readstatusinput.setAttribute('type','checkbox');
-            readstatusinput.setAttribute('id','cardreadstatus');
-            readstatusinput.setAttribute('name','cardreadstatus');
-            readstatusinput.value = myLibrary[i].read;
-            readstatusinput.addEventListener('change', updateReadStatus);
+            readstatus.setAttribute('type','checkbox');
+            readstatus.setAttribute('id','cardreadstatus');
+            readstatus.setAttribute('name','cardreadstatus');
+            readstatus.checked = myLibrary[i].read;
+            readstatus.addEventListener('change', updateReadStatus);
             readstatusdiv.appendChild(readstatuslabel);
-            readstatusdiv.appendChild(readstatusinput);
+            readstatusdiv.appendChild(readstatus);
             
     
             let closebutton = document.createElement('div');
@@ -68,13 +68,13 @@ function displayBooks(){
             titlediv.textContent = myLibrary[i].fulltitle;
             authordiv.textContent = myLibrary[i].author;
             pagenumdiv.textContent = myLibrary[i].pages + " pages";
-            if (myLibrary[i].read === 'on'){
-                // readdiv.textContent = "have read";
-                readstatusinput.checked = true;
-            } else{
-                // readdiv.textContent = "have not read";
-                readstatusinput.checked = false;
-            }
+            // if (myLibrary[i].read === 'on'){
+            //     // readdiv.textContent = "have read";
+            //     readstatus.checked = true;
+            // } else{
+            //     // readdiv.textContent = "have not read";
+            //     readstatus.checked = false;
+            // }
             closebutton.addEventListener('click', deleteBook);
     
             infodiv.appendChild(pagenumdiv);
@@ -120,16 +120,16 @@ function initialDisplayBooks(){
         
         let readstatusdiv = document.createElement('div');
         let readstatuslabel = document.createElement('label');
-        let readstatusinput =  document.createElement('input');
+        let readstatus =  document.createElement('input');
         readstatuslabel.textContent = "Read?";
         readstatuslabel.setAttribute('for','cardreadstatus');
-        readstatusinput.setAttribute('type','checkbox');
-        readstatusinput.setAttribute('id','cardreadstatus');
-        readstatusinput.setAttribute('name','cardreadstatus');
-        readstatusinput.value = myLibrary[i].read;
-        readstatusinput.addEventListener('change', updateReadStatus);
+        readstatus.setAttribute('type','checkbox');
+        readstatus.setAttribute('id','cardreadstatus');
+        readstatus.setAttribute('name','cardreadstatus');
+        readstatus.checked = myLibrary[i].read;
+        readstatus.addEventListener('change', updateReadStatus);
         readstatusdiv.appendChild(readstatuslabel);
-        readstatusdiv.appendChild(readstatusinput);
+        readstatusdiv.appendChild(readstatus);
         
 
         let closebutton = document.createElement('div');
@@ -137,13 +137,13 @@ function initialDisplayBooks(){
         titlediv.textContent = myLibrary[i].fulltitle;
         authordiv.textContent = myLibrary[i].author;
         pagenumdiv.textContent = myLibrary[i].pages + " pages";
-        if (myLibrary[i].read === 'on'){
-            // readdiv.textContent = "have read";
-            readstatusinput.checked = true;
-        } else{
-            // readdiv.textContent = "have not read";
-            readstatusinput.checked = false;
-        }
+        // if (myLibrary[i].read === true){
+        //     // readdiv.textContent = "have read";
+        //     readstatus.checked = true;
+        // } else{
+        //     // readdiv.textContent = "have not read";
+        //     readstatus.checked = false;
+        // }
         closebutton.addEventListener('click', deleteBook);
 
         infodiv.appendChild(pagenumdiv);
@@ -226,7 +226,7 @@ function addBook(){
     let authorinput =  document.querySelector('#author').value;
     let pageinput = document.querySelector('#pages').value;
     let nicknameinput = document.querySelector('#nickname').value;
-    let readstatusinput = document.querySelector('#readstatus').value;
+    let readstatusinput = document.querySelector('#readstatuscheck').checked;
     let newbook = new Book(fulltitleinput, authorinput, pageinput, readstatusinput, nicknameinput);
     addBookToLibrary(newbook);
     displayModalForm();
@@ -234,7 +234,7 @@ function addBook(){
     document.querySelector('#author').value = '';
     document.querySelector('#pages').value = '';
     document.querySelector('#nickname').value = '';
-    document.querySelector('#readstatus').value = 'off';
+    document.querySelector('#readstatuscheck').checked = false;
 }
 
 
