@@ -47,7 +47,7 @@ function displayBooks(){
             let authordiv = document.createElement('div');
             let infodiv =  document.createElement('div');
             let pagenumdiv = document.createElement('div');
-            let readdiv = document.createElement('div');
+            // let readdiv = document.createElement('div');
             
             let readstatusdiv = document.createElement('div');
             let readstatuslabel = document.createElement('label');
@@ -69,16 +69,16 @@ function displayBooks(){
             authordiv.textContent = myLibrary[i].author;
             pagenumdiv.textContent = myLibrary[i].pages + " pages";
             if (myLibrary[i].read === 'on'){
-                readdiv.textContent = "have read";
+                // readdiv.textContent = "have read";
                 readstatusinput.checked = true;
             } else{
-                readdiv.textContent = "have not read";
+                // readdiv.textContent = "have not read";
                 readstatusinput.checked = false;
             }
             closebutton.addEventListener('click', deleteBook);
     
             infodiv.appendChild(pagenumdiv);
-            infodiv.appendChild(readdiv);
+            // infodiv.appendChild(readdiv);
     
             infodiv.appendChild(readstatusdiv);
     
@@ -86,14 +86,14 @@ function displayBooks(){
             bookdiv.appendChild(titlediv);
             bookdiv.appendChild(authordiv);
             bookdiv.appendChild(infodiv);
-            bookdiv.id = `b${i}`;
+            // bookdiv.id = `b${i}`;
             bookdiv.setAttribute('data-index', `${i}`);
             bookdiv.classList.add(`bookdiv`);
             titlediv.classList.add('titlediv');
             authordiv.classList.add('authordiv');
             infodiv.classList.add('infodiv');
             pagenumdiv.classList.add('pagenumdiv');
-            readdiv.classList.add('readdiv');
+            // readdiv.classList.add('readdiv');
             closebutton.classList.add('btn', 'removebook');
             libgrid.appendChild(bookdiv);
         }
@@ -101,7 +101,7 @@ function displayBooks(){
 }
 
 function checkDuplicateTitles(){
-        if (document.querySelector(`#b${i}`)){
+        if (document.querySelector(`.bookdiv[data-index="${i}"]`)){
             return true
         }else{
             return false
@@ -116,7 +116,7 @@ function initialDisplayBooks(){
         let authordiv = document.createElement('div');
         let infodiv =  document.createElement('div');
         let pagenumdiv = document.createElement('div');
-        let readdiv = document.createElement('div');
+        // let readdiv = document.createElement('div');
         
         let readstatusdiv = document.createElement('div');
         let readstatuslabel = document.createElement('label');
@@ -138,16 +138,16 @@ function initialDisplayBooks(){
         authordiv.textContent = myLibrary[i].author;
         pagenumdiv.textContent = myLibrary[i].pages + " pages";
         if (myLibrary[i].read === 'on'){
-            readdiv.textContent = "have read";
+            // readdiv.textContent = "have read";
             readstatusinput.checked = true;
         } else{
-            readdiv.textContent = "have not read";
+            // readdiv.textContent = "have not read";
             readstatusinput.checked = false;
         }
         closebutton.addEventListener('click', deleteBook);
 
         infodiv.appendChild(pagenumdiv);
-        infodiv.appendChild(readdiv);
+        // infodiv.appendChild(readdiv);
 
         infodiv.appendChild(readstatusdiv);
 
@@ -155,14 +155,14 @@ function initialDisplayBooks(){
         bookdiv.appendChild(titlediv);
         bookdiv.appendChild(authordiv);
         bookdiv.appendChild(infodiv);
-        bookdiv.id = `b${i}`;
+        // bookdiv.id = `b${i}`;
         bookdiv.setAttribute('data-index', `${i}`);
         bookdiv.classList.add(`bookdiv`);
         titlediv.classList.add('titlediv');
         authordiv.classList.add('authordiv');
         infodiv.classList.add('infodiv');
         pagenumdiv.classList.add('pagenumdiv');
-        readdiv.classList.add('readdiv');
+        // readdiv.classList.add('readdiv');
         closebutton.classList.add('btn', 'removebook');
         libgrid.appendChild(bookdiv);
         }
@@ -174,9 +174,9 @@ initialDisplayBooks();
     let index = e.target.parentNode.parentNode.parentNode.dataset.index;
     console.log(index);
     if (myLibrary[index].read === 'on'){
-        myLibrary[index].read = 'off';
+        myLibrary[index].makeRead();
     } else {
-        myLibrary[index].read = 'on'
+        myLibrary[index].makeRead();
     }
 
  }
@@ -188,7 +188,15 @@ function deleteBook(e){
     let bookdiv = document.querySelector(`div[data-index="${index}"]`); 
     myLibrary.splice(index, 1);
     libgrid.removeChild(bookdiv);
+    updateIndexNumbers();
     displayBooks();
+}
+
+function updateIndexNumbers(){
+    let bookdivs = document.querySelectorAll('.bookdiv');
+    for(i=0;i<myLibrary.length; i++){
+        bookdivs[i].setAttribute('data-index', `${i}`);
+    }
 }
 
 // *******************************************MODAL*******************************************
