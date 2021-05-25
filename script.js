@@ -20,9 +20,14 @@ function Book(fulltitle, author, pages, read, reftitle){
         return(this.fulltitle + ", " + this.author + ", " + this.pages + ", " + this.read);
     }
 }
-// Book.prototype.read = function(){
-//     this.read
-// }
+Book.prototype.makeRead = function(){
+    if (this.read === 'on'){
+        this.read = 'off';
+    } else {
+        this.read = 'on';
+    }
+}
+
 // *******************************************LIBARY DISPLAYS*******************************************
 
 // add book to library function: adds object to my library array, displays current library
@@ -42,7 +47,22 @@ function displayBooks(){
             let authordiv = document.createElement('div');
             let infodiv =  document.createElement('div');
             let pagenumdiv = document.createElement('div');
-            let readdiv = document.createElement('div'); 
+            let readdiv = document.createElement('div');
+            
+            let readstatusdiv = document.createElement('div');
+            let readstatuslabel = document.createElement('label');
+            let readstatusinput =  document.createElement('input');
+            readstatuslabel.textContent = "Read?";
+            readstatuslabel.setAttribute('for','cardreadstatus');
+            readstatusinput.setAttribute('type','checkbox');
+            readstatusinput.setAttribute('id','cardreadstatus');
+            readstatusinput.setAttribute('name','cardreadstatus');
+            readstatusinput.value = myLibrary[i].read;
+            readstatusinput.addEventListener('change', updateReadStatus);
+            readstatusdiv.appendChild(readstatuslabel);
+            readstatusdiv.appendChild(readstatusinput);
+            
+    
             let closebutton = document.createElement('div');
             closebutton.textContent = 'X';
             titlediv.textContent = myLibrary[i].fulltitle;
@@ -50,12 +70,18 @@ function displayBooks(){
             pagenumdiv.textContent = myLibrary[i].pages + " pages";
             if (myLibrary[i].read === 'on'){
                 readdiv.textContent = "have read";
+                readstatusinput.checked = true;
             } else{
                 readdiv.textContent = "have not read";
+                readstatusinput.checked = false;
             }
             closebutton.addEventListener('click', deleteBook);
+    
             infodiv.appendChild(pagenumdiv);
             infodiv.appendChild(readdiv);
+    
+            infodiv.appendChild(readstatusdiv);
+    
             bookdiv.appendChild(closebutton);
             bookdiv.appendChild(titlediv);
             bookdiv.appendChild(authordiv);
@@ -90,7 +116,22 @@ function initialDisplayBooks(){
         let authordiv = document.createElement('div');
         let infodiv =  document.createElement('div');
         let pagenumdiv = document.createElement('div');
-        let readdiv = document.createElement('div'); 
+        let readdiv = document.createElement('div');
+        
+        let readstatusdiv = document.createElement('div');
+        let readstatuslabel = document.createElement('label');
+        let readstatusinput =  document.createElement('input');
+        readstatuslabel.textContent = "Read?";
+        readstatuslabel.setAttribute('for','cardreadstatus');
+        readstatusinput.setAttribute('type','checkbox');
+        readstatusinput.setAttribute('id','cardreadstatus');
+        readstatusinput.setAttribute('name','cardreadstatus');
+        readstatusinput.value = myLibrary[i].read;
+        readstatusinput.addEventListener('change', updateReadStatus);
+        readstatusdiv.appendChild(readstatuslabel);
+        readstatusdiv.appendChild(readstatusinput);
+        
+
         let closebutton = document.createElement('div');
         closebutton.textContent = 'X';
         titlediv.textContent = myLibrary[i].fulltitle;
@@ -98,12 +139,18 @@ function initialDisplayBooks(){
         pagenumdiv.textContent = myLibrary[i].pages + " pages";
         if (myLibrary[i].read === 'on'){
             readdiv.textContent = "have read";
+            readstatusinput.checked = true;
         } else{
             readdiv.textContent = "have not read";
+            readstatusinput.checked = false;
         }
         closebutton.addEventListener('click', deleteBook);
+
         infodiv.appendChild(pagenumdiv);
         infodiv.appendChild(readdiv);
+
+        infodiv.appendChild(readstatusdiv);
+
         bookdiv.appendChild(closebutton);
         bookdiv.appendChild(titlediv);
         bookdiv.appendChild(authordiv);
@@ -121,6 +168,18 @@ function initialDisplayBooks(){
         }
 }
 initialDisplayBooks();
+
+// update read status
+ function updateReadStatus(e){
+    let index = e.target.parentNode.parentNode.parentNode.dataset.index;
+    console.log(index);
+    if (myLibrary[index].read === 'on'){
+        myLibrary[index].read = 'off';
+    } else {
+        myLibrary[index].read = 'on'
+    }
+
+ }
 
 // delete book function
 function deleteBook(e){
